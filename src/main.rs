@@ -719,7 +719,7 @@ fn main()  -> std::io::Result<()> {
 
 	assert!(ratio == 8);
 
-	println!("Loading ratio is {}", ratio);
+	println!("Loading ratio is {} with file size {}", ratio, text.len());
 
 	fn sdf(text:&[u8], start:usize, end:usize) -> usize {
 	    let mut table = make_table(env::args().nth(2).unwrap() + ".table.bin", start);
@@ -1222,7 +1222,6 @@ fn main()  -> std::io::Result<()> {
 			all_items.append(&mut line)
 		    }
 		    all_items.sort_unstable();
-		    println!("Done {}", all_items.len());
 		    return all_items;
 		});
 		result.push(out);
@@ -1230,9 +1229,7 @@ fn main()  -> std::io::Result<()> {
 	});
 	let outputs:Vec<Vec<u64>> = result.into_iter().map(|t| t.join()).collect();
 	let mut all_items:Vec<u64> = outputs.into_iter().flatten().collect();
-	println!("Sorting.");
 	all_items.sort_unstable();
-	println!("Sorted.");
 	let mut ranges:Vec<(u64,u64)> = Vec::with_capacity(1000);
 	let mut prev_start = all_items[0];
 	let mut prev_end = all_items[0]+100;
@@ -1248,7 +1245,7 @@ fn main()  -> std::io::Result<()> {
 	ranges.push((prev_start, prev_end));
 	    
 	let strout:Vec<String> = ranges.iter().map(|&x| format!("{} {}", x.0, x.1)).collect();
-	println!("out {}", strout.join("\n"));
+	println!("{}", strout.join("\n"));
 
     } else {
 	println!("Command `{}` not known.", op)
